@@ -273,7 +273,9 @@ export default function DocumentGallery({
           {currentStageDocs.length > 0 ? (
             <div className="grid grid-cols-2 sm:grid-cols-3 gap-3">
               {currentStageDocs.map((doc) => {
-                const imgSrc = `http://localhost:4000${doc.filepath}`;
+                const imgSrc = doc.filepath?.startsWith("http")
+                  ? doc.filepath
+                  : `${import.meta.env.VITE_API_URL?.replace("/api", "") || "http://localhost:4000"}${doc.filepath}`;
                 return (
                   <div
                     key={doc.id}
