@@ -102,8 +102,8 @@ export default function Dashboard() {
     return (
       <div className="flex items-center justify-center h-96">
         <div className="flex flex-col items-center gap-3">
-          <div className="h-10 w-10 animate-spin rounded-full border-4 border-blue-600 border-t-transparent" />
-          <p className="text-sm text-gray-500 font-medium">Memuat data dashboard</p>
+          <div className="w-10 h-10 border-4 border-blue-600 rounded-full animate-spin border-t-transparent" />
+          <p className="text-sm font-medium text-gray-500">Memuat data dashboard</p>
           <p className="text-xs text-gray-400">Tahun Anggaran {tahun}</p>
         </div>
       </div>
@@ -226,14 +226,14 @@ export default function Dashboard() {
           MASTHEAD  identitas resmi pemerintah
        */}
       <div className="bg-gradient-to-r from-[#0a2240] via-[#0d3060] to-[#0a2240] text-white px-4 sm:px-6 py-3 rounded-t-2xl flex items-center justify-between gap-3">
-        <div className="flex items-center gap-3 min-w-0">
-          <img src="/logo-lamongan.png" alt="Lamongan" className="h-10 w-10 rounded-full object-cover shrink-0 opacity-90" onError={e => { e.target.style.display='none'; }} />
+        <div className="flex items-center min-w-0 gap-3">
+          <img src="/logo-lamongan.png" alt="Lamongan" className="object-cover w-10 h-10 rounded-full shrink-0 opacity-90" onError={e => { e.target.style.display='none'; }} />
           <div className="min-w-0">
             <p className="text-[11px] font-semibold tracking-widest text-blue-300 uppercase">Pemerintah Kabupaten Lamongan</p>
             <p className="text-sm font-bold leading-tight truncate">Sistem Informasi Monitoring Pengadaan</p>
           </div>
         </div>
-        <div className="text-right shrink-0 hidden sm:block">
+        <div className="hidden text-right shrink-0 sm:block">
           <p className="text-[11px] text-blue-300 leading-tight">{hariIni()}</p>
           <p className="text-[11px] text-blue-400 mt-0.5">Data diperbarui otomatis</p>
         </div>
@@ -242,12 +242,12 @@ export default function Dashboard() {
       {/* 
           TOOLBAR  judul + filter tahun + refresh
        */}
-      <div className="bg-white dark:bg-gray-900 border-x border-b rounded-b-none px-4 sm:px-6 py-3 flex items-center justify-between gap-3">
-        <div className="flex items-center gap-2 text-sm">
-          <Activity className="h-4 w-4 text-blue-600" />
-          <span className="font-semibold text-gray-800 dark:text-white">Dashboard Monitoring</span>
-          <ChevronRight className="h-3.5 w-3.5 text-gray-400" />
-          <span className="text-gray-500">Rekapitulasi TA {tahun}</span>
+      <div className="flex items-center justify-between gap-2 flex-wrap px-4 py-3 bg-white border-b rounded-b-none dark:bg-gray-900 border-x sm:px-6">
+        <div className="flex items-center gap-2 text-sm min-w-0">
+          <Activity className="w-4 h-4 text-blue-600 shrink-0" />
+          <span className="font-semibold text-gray-800 dark:text-white truncate">Dashboard Monitoring</span>
+          <ChevronRight className="h-3.5 w-3.5 text-gray-400 hidden sm:inline-flex shrink-0" />
+          <span className="text-gray-500 hidden sm:inline">Rekapitulasi TA {tahun}</span>
         </div>
         <div className="flex items-center gap-2">
           <button
@@ -263,7 +263,7 @@ export default function Dashboard() {
             <select
               value={tahun}
               onChange={(e) => setTahun(Number(e.target.value))}
-              className="bg-transparent focus:outline-none cursor-pointer font-semibold"
+              className="font-semibold bg-transparent cursor-pointer focus:outline-none"
             >
               {Array.from({ length: new Date().getFullYear() - 2010 + 1 }, (_, i) => new Date().getFullYear() - i).map(y => (
                 <option key={y} value={y} className="text-gray-900 bg-white">{y}</option>
@@ -273,7 +273,7 @@ export default function Dashboard() {
         </div>
       </div>
 
-      <div className="space-y-4 pt-4">
+      <div className="pt-4 space-y-4">
 
         {/* 
             BARIS UTAMA  3 panel asimetrik
@@ -284,18 +284,18 @@ export default function Dashboard() {
           <div className="lg:col-span-3 rounded-2xl border bg-gradient-to-br from-blue-600 to-blue-800 p-5 text-white shadow-md flex flex-col justify-between min-h-[200px]">
             <div>
               <div className="flex items-center gap-2 mb-1">
-                <Layers className="h-4 w-4 text-blue-200" />
-                <span className="text-xs font-semibold text-blue-200 uppercase tracking-wide">Total Paket</span>
+                <Layers className="w-4 h-4 text-blue-200" />
+                <span className="text-xs font-semibold tracking-wide text-blue-200 uppercase">Total Paket</span>
               </div>
-              <p className="text-5xl font-black mt-1">{totalPaket}</p>
-              <p className="text-blue-200 text-sm mt-1">paket kegiatan pengadaan</p>
+              <p className="mt-1 text-5xl font-black">{totalPaket}</p>
+              <p className="mt-1 text-sm text-blue-200">paket kegiatan pengadaan</p>
             </div>
-            <div className="mt-4 grid grid-cols-2 gap-2">
-              <div className="bg-white/10 rounded-xl p-3">
+            <div className="grid grid-cols-2 gap-2 mt-4">
+              <div className="p-3 bg-white/10 rounded-xl">
                 <p className="text-blue-200 text-xs mb-0.5">Sedang Berjalan</p>
                 <p className="text-2xl font-bold">{totalAktif}</p>
               </div>
-              <div className="bg-white/10 rounded-xl p-3">
+              <div className="p-3 bg-white/10 rounded-xl">
                 <p className="text-blue-200 text-xs mb-0.5">Selesai</p>
                 <p className="text-2xl font-bold">{totalSelesai}</p>
               </div>
@@ -303,13 +303,13 @@ export default function Dashboard() {
           </div>
 
           {/* Panel 2  Keuangan */}
-          <div className="lg:col-span-5 rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <div className="p-5 bg-white border shadow-sm lg:col-span-5 rounded-2xl dark:bg-gray-900">
             <div className="flex items-center justify-between mb-3">
               <div>
-                <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide">Realisasi Keuangan</p>
+                <p className="text-xs font-semibold tracking-wide text-gray-500 uppercase">Realisasi Keuangan</p>
                 <p className="text-sm font-bold text-gray-900 dark:text-white">Tahun Anggaran {tahun}</p>
               </div>
-              <div className="bg-blue-50 dark:bg-blue-900/30 rounded-xl px-3 py-2 text-center">
+              <div className="px-3 py-2 text-center bg-blue-50 dark:bg-blue-900/30 rounded-xl">
                 <p className="text-2xl font-black text-blue-600">{pct}%</p>
                 <p className="text-[10px] text-blue-400">terserap</p>
               </div>
@@ -317,12 +317,12 @@ export default function Dashboard() {
 
             {/* Progress dengan milestone */}
             <div className="relative mt-2 mb-4">
-              <div className="relative h-5 w-full rounded-full bg-gray-100 dark:bg-gray-800 overflow-hidden">
+              <div className="relative w-full h-5 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-800">
                 <div
-                  className="h-full rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-emerald-500 transition-all duration-1000 relative"
+                  className="relative h-full transition-all duration-1000 rounded-full bg-gradient-to-r from-blue-500 via-blue-400 to-emerald-500"
                   style={{ width: `${Math.min(pct, 100)}%` }}
                 >
-                  <div className="absolute right-0 top-0 h-full w-1 bg-white/40" />
+                  <div className="absolute top-0 right-0 w-1 h-full bg-white/40" />
                 </div>
               </div>
               {/* milestone marks */}
@@ -336,25 +336,25 @@ export default function Dashboard() {
             </div>
 
             <div className="grid grid-cols-2 gap-3">
-              <div className="rounded-xl bg-gray-50 dark:bg-gray-800 border border-gray-100 dark:border-gray-700 p-3">
+              <div className="p-3 border border-gray-100 rounded-xl bg-gray-50 dark:bg-gray-800 dark:border-gray-700">
                 <div className="flex items-center gap-1.5 mb-1">
                   <Wallet className="h-3.5 w-3.5 text-gray-400" />
                   <p className="text-xs text-gray-500">Total Kontrak</p>
                 </div>
-                <p className="font-black text-gray-900 dark:text-white text-sm leading-tight">{formatRupiahFull(stats?.nilai?.total)}</p>
+                <p className="text-sm font-black leading-tight text-gray-900 dark:text-white">{formatRupiahFull(stats?.nilai?.total)}</p>
               </div>
-              <div className="rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border border-emerald-100 dark:border-emerald-800 p-3">
+              <div className="p-3 border rounded-xl bg-emerald-50 dark:bg-emerald-900/20 border-emerald-100 dark:border-emerald-800">
                 <div className="flex items-center gap-1.5 mb-1">
                   <TrendingUp className="h-3.5 w-3.5 text-emerald-500" />
                   <p className="text-xs text-emerald-600">Terealisasi</p>
                 </div>
-                <p className="font-black text-emerald-700 text-sm leading-tight">{formatRupiahFull(stats?.nilai?.realisasi)}</p>
+                <p className="text-sm font-black leading-tight text-emerald-700">{formatRupiahFull(stats?.nilai?.realisasi)}</p>
               </div>
             </div>
 
-            <div className="mt-3 rounded-xl bg-blue-50 dark:bg-blue-900/20 border border-blue-100 dark:border-blue-800 p-3 flex items-center justify-between">
+            <div className="flex items-center justify-between p-3 mt-3 border border-blue-100 rounded-xl bg-blue-50 dark:bg-blue-900/20 dark:border-blue-800">
               <div className="flex items-center gap-2">
-                <BarChart3 className="h-5 w-5 text-blue-500" />
+                <BarChart3 className="w-5 h-5 text-blue-500" />
                 <div>
                   <p className="text-[11px] text-blue-500 font-medium">Rata-rata Progres Fisik</p>
                   <p className="text-xs text-blue-400">Dari seluruh paket aktif</p>
@@ -365,10 +365,10 @@ export default function Dashboard() {
           </div>
 
           {/* Panel 3  Top OPD Performa */}
-          <div className="lg:col-span-4 rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <div className="p-5 bg-white border shadow-sm lg:col-span-4 rounded-2xl dark:bg-gray-900">
             <div className="flex items-center gap-2 mb-4">
               <div className="rounded-lg bg-amber-100 dark:bg-amber-900/40 p-1.5">
-                <Trophy className="h-4 w-4 text-amber-600" />
+                <Trophy className="w-4 h-4 text-amber-600" />
               </div>
               <div>
                 <p className="text-sm font-bold text-gray-900 dark:text-white">Performa OPD</p>
@@ -386,7 +386,7 @@ export default function Dashboard() {
                       <span className="text-lg shrink-0">{medals[idx]}</span>
                       <div className="flex-1 min-w-0">
                         <div className="flex items-center justify-between mb-0.5">
-                          <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">{o.opd?.code || o.opd?.name?.slice(0, 20) || ""}</p>
+                          <p className="text-xs font-semibold text-gray-800 truncate dark:text-gray-200">{o.opd?.code || o.opd?.name?.slice(0, 20) || ""}</p>
                           <span className={`text-xs font-bold ml-2 shrink-0 ${realisasiPct >= 80 ? "text-emerald-600" : realisasiPct >= 50 ? "text-blue-600" : "text-amber-600"}`}>{realisasiPct}%</span>
                         </div>
                         <div className="h-1.5 w-full rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
@@ -400,12 +400,12 @@ export default function Dashboard() {
               </div>
             ) : (
               <div className="flex flex-col items-center justify-center h-24 text-gray-300">
-                <Trophy className="h-8 w-8 mb-2" />
+                <Trophy className="w-8 h-8 mb-2" />
                 <p className="text-xs">Belum ada data realisasi</p>
               </div>
             )}
 
-            <div className="mt-4 pt-3 border-t border-gray-100 dark:border-gray-800 flex items-center justify-between">
+            <div className="flex items-center justify-between pt-3 mt-4 border-t border-gray-100 dark:border-gray-800">
               <p className="text-xs text-gray-400">Total OPD terlibat</p>
               <span className="text-sm font-bold text-gray-800 dark:text-white">{chartData?.opd?.length || 0} OPD</span>
             </div>
@@ -415,16 +415,16 @@ export default function Dashboard() {
         {/* 
             ALERT  paket dengan progres rendah & status
          */}
-        <div className="grid gap-4 lg:grid-cols-12">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-12">
 
           {/* Status Distribution */}
-          <div className="lg:col-span-7 rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm">
-            <p className="text-sm font-bold text-gray-900 dark:text-white mb-1">Distribusi Status Paket</p>
-            <p className="text-xs text-gray-400 mb-4">Perbandingan progres seluruh status kegiatan pengadaan TA {tahun}</p>
+          <div className="p-5 bg-white border shadow-sm lg:col-span-7 rounded-2xl dark:bg-gray-900">
+            <p className="mb-1 text-sm font-bold text-gray-900 dark:text-white">Distribusi Status Paket</p>
+            <p className="mb-4 text-xs text-gray-400">Perbandingan progres seluruh status kegiatan pengadaan TA {tahun}</p>
 
             {/* Stacked bar horizontal */}
             <div className="mb-4">
-              <div className="flex h-8 w-full rounded-xl overflow-hidden">
+              <div className="flex w-full h-8 overflow-hidden rounded-xl">
                 {totalPaket > 0 && [
                   { key: "active", label: "Aktif", count: totalAktif, color: "bg-blue-500" },
                   { key: "completed", label: "Selesai", count: totalSelesai, color: "bg-emerald-500" },
@@ -438,7 +438,7 @@ export default function Dashboard() {
                     title={`${s.label}: ${s.count} paket (${Math.round((s.count / totalPaket) * 100)}%)`}
                   >
                     {s.count / totalPaket > 0.1 && (
-                      <span className="text-white text-xs font-bold">{s.count}</span>
+                      <span className="text-xs font-bold text-white">{s.count}</span>
                     )}
                   </div>
                 ))}
@@ -462,7 +462,7 @@ export default function Dashboard() {
             </div>
 
             {/* Grid 4 status detail */}
-            <div className="grid grid-cols-4 gap-2 mt-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 mt-2">
               {[
                 { label: "Aktif", count: totalAktif, icon: PlayCircle, bg: "bg-blue-50 dark:bg-blue-950", text: "text-blue-700", sub: "Sedang berjalan" },
                 { label: "Selesai", count: totalSelesai, icon: CheckCircle2, bg: "bg-emerald-50 dark:bg-emerald-950", text: "text-emerald-700", sub: "Pekerjaan tuntas" },
@@ -480,12 +480,12 @@ export default function Dashboard() {
           </div>
 
           {/* Alert paket kritis */}
-          <div className="lg:col-span-5 rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm flex flex-col">
+          <div className="flex flex-col p-5 bg-white border shadow-sm lg:col-span-5 rounded-2xl dark:bg-gray-900">
             <div className="flex items-center gap-2 mb-3">
               <div className={`rounded-lg p-1.5 ${paketKritis.length > 0 ? "bg-red-100 dark:bg-red-900/40" : "bg-emerald-100 dark:bg-emerald-900/40"}`}>
                 {paketKritis.length > 0
-                  ? <AlertTriangle className="h-4 w-4 text-red-600" />
-                  : <CheckCircle2 className="h-4 w-4 text-emerald-600" />
+                  ? <AlertTriangle className="w-4 h-4 text-red-600" />
+                  : <CheckCircle2 className="w-4 h-4 text-emerald-600" />
                 }
               </div>
               <div>
@@ -497,33 +497,33 @@ export default function Dashboard() {
             </div>
 
             {paketKritis.length > 0 ? (
-              <div className="space-y-2 flex-1 overflow-y-auto max-h-52">
+              <div className="flex-1 space-y-2 overflow-y-auto max-h-52">
                 {paketKritis.map((p) => (
                   <div key={p.id} className="flex items-start gap-2 rounded-xl bg-red-50 dark:bg-red-900/10 border border-red-100 dark:border-red-800/50 p-2.5">
                     <div className="mt-0.5 shrink-0">
-                      <div className="h-6 w-6 rounded-full bg-red-500 flex items-center justify-center">
+                      <div className="flex items-center justify-center w-6 h-6 bg-red-500 rounded-full">
                         <span className="text-white text-[10px] font-bold">{p.progres}%</span>
                       </div>
                     </div>
                     <div className="flex-1 min-w-0">
-                      <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">{p.name}</p>
+                      <p className="text-xs font-semibold text-gray-800 truncate dark:text-gray-200">{p.name}</p>
                       <p className="text-[10px] text-gray-400 truncate">{p.opd?.code}  {p.kategori}</p>
                     </div>
                   </div>
                 ))}
               </div>
             ) : (
-              <div className="flex-1 flex flex-col items-center justify-center text-center py-4">
-                <div className="h-12 w-12 rounded-full bg-emerald-100 dark:bg-emerald-900/30 flex items-center justify-center mb-2">
-                  <CheckCircle2 className="h-6 w-6 text-emerald-600" />
+              <div className="flex flex-col items-center justify-center flex-1 py-4 text-center">
+                <div className="flex items-center justify-center w-12 h-12 mb-2 rounded-full bg-emerald-100 dark:bg-emerald-900/30">
+                  <CheckCircle2 className="w-6 h-6 text-emerald-600" />
                 </div>
                 <p className="text-sm font-semibold text-gray-700 dark:text-gray-300">Kondisi Baik</p>
-                <p className="text-xs text-gray-400 mt-1">Tidak ada paket aktif dengan progres di bawah 30%</p>
+                <p className="mt-1 text-xs text-gray-400">Tidak ada paket aktif dengan progres di bawah 30%</p>
               </div>
             )}
 
             {/* Ringkasan cepat */}
-            <div className="mt-3 pt-3 border-t border-gray-100 dark:border-gray-800 grid grid-cols-2 gap-2">
+            <div className="grid grid-cols-2 gap-2 pt-3 mt-3 border-t border-gray-100 dark:border-gray-800">
               <div className="text-center">
                 <p className="text-lg font-black text-gray-900 dark:text-white">{totalPaket > 0 ? Math.round((totalSelesai / totalPaket) * 100) : 0}%</p>
                 <p className="text-[10px] text-gray-400">Tingkat Penyelesaian</p>
@@ -541,7 +541,7 @@ export default function Dashboard() {
          */}
         <div>
           <div className="flex items-center gap-2 mb-3">
-            <FileText className="h-4 w-4 text-gray-500" />
+            <FileText className="w-4 h-4 text-gray-500" />
             <p className="text-sm font-bold text-gray-800 dark:text-white">Rekapitulasi Per Jenis Pengadaan</p>
           </div>
           <div className="grid grid-cols-2 gap-3 lg:grid-cols-4">
@@ -554,19 +554,19 @@ export default function Dashboard() {
               const share = totalPaket ? Math.round((value / totalPaket) * 100) : 0;
               return (
                 <div key={label} className={`relative overflow-hidden rounded-2xl bg-gradient-to-br ${from} ${to} p-4 text-white shadow-md ring-2 ${ring} hover:shadow-xl hover:-translate-y-0.5 transition-all duration-200`}>
-                  <div className="pointer-events-none absolute -right-6 -top-6 h-24 w-24 rounded-full bg-white/10" />
-                  <div className="pointer-events-none absolute -bottom-8 -left-4 h-20 w-20 rounded-full bg-black/10" />
+                  <div className="absolute w-24 h-24 rounded-full pointer-events-none -right-6 -top-6 bg-white/10" />
+                  <div className="absolute w-20 h-20 rounded-full pointer-events-none -bottom-8 -left-4 bg-black/10" />
                   <div className="flex items-start justify-between mb-3">
-                    <div className="rounded-xl bg-white/20 p-2 backdrop-blur-sm">
-                      <Icon className="h-5 w-5" />
+                    <div className="p-2 rounded-xl bg-white/20 backdrop-blur-sm">
+                      <Icon className="w-5 h-5" />
                     </div>
-                    <span className="text-white/80 text-xs font-semibold">{share}%</span>
+                    <span className="text-xs font-semibold text-white/80">{share}%</span>
                   </div>
                   <p className="text-4xl font-black">{value}</p>
-                  <p className="text-white font-semibold text-sm mt-1 leading-tight">{label}</p>
+                  <p className="mt-1 text-sm font-semibold leading-tight text-white">{label}</p>
                   <p className="text-white/60 text-[10px] mt-0.5">{sub}</p>
                   <div className="mt-3 h-1.5 w-full rounded-full bg-white/20 overflow-hidden">
-                    <div className="h-full rounded-full bg-white/60 transition-all duration-700" style={{ width: `${share}%` }} />
+                    <div className="h-full transition-all duration-700 rounded-full bg-white/60" style={{ width: `${share}%` }} />
                   </div>
                 </div>
               );
@@ -577,17 +577,17 @@ export default function Dashboard() {
         {/* 
             CHARTS
          */}
-        <div className="grid gap-4 lg:grid-cols-7">
+        <div className="grid gap-4 grid-cols-1 lg:grid-cols-7">
           {/* Line chart */}
-          <div className="lg:col-span-4 rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm">
-            <div className="mb-4 flex items-start justify-between">
+          <div className="p-5 bg-white border shadow-sm lg:col-span-4 rounded-2xl dark:bg-gray-900">
+            <div className="flex items-start justify-between mb-4">
               <div>
                 <p className="text-sm font-bold text-gray-900 dark:text-white">Tren Pengadaan Bulanan</p>
                 <p className="text-xs text-gray-400 mt-0.5">Jumlah paket & rata-rata progres per bulan  TA {tahun}</p>
               </div>
               <div className="flex gap-3 text-[10px] text-gray-400">
-                <div className="flex items-center gap-1"><div className="h-2 w-4 rounded-sm bg-blue-500" />Paket</div>
-                <div className="flex items-center gap-1"><div className="h-2 w-4 rounded-sm bg-emerald-500" />Progres</div>
+                <div className="flex items-center gap-1"><div className="w-4 h-2 bg-blue-500 rounded-sm" />Paket</div>
+                <div className="flex items-center gap-1"><div className="w-4 h-2 rounded-sm bg-emerald-500" />Progres</div>
               </div>
             </div>
             <div className="h-[220px]">
@@ -609,7 +609,7 @@ export default function Dashboard() {
           </div>
 
           {/* Doughnut */}
-          <div className="lg:col-span-3 rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm">
+          <div className="p-5 bg-white border shadow-sm lg:col-span-3 rounded-2xl dark:bg-gray-900">
             <div className="mb-4">
               <p className="text-sm font-bold text-gray-900 dark:text-white">Komposisi Jenis Pengadaan</p>
               <p className="text-xs text-gray-400 mt-0.5">Proporsi berdasarkan jumlah paket TA {tahun}</p>
@@ -630,15 +630,15 @@ export default function Dashboard() {
 
         {/* OPD Bar Chart */}
         {(chartData?.opd?.length || 0) > 0 && (
-          <div className="rounded-2xl border bg-white dark:bg-gray-900 p-5 shadow-sm">
-            <div className="mb-4 flex items-start justify-between">
+          <div className="p-5 bg-white border shadow-sm rounded-2xl dark:bg-gray-900">
+            <div className="flex items-start justify-between mb-4">
               <div>
                 <p className="text-sm font-bold text-gray-900 dark:text-white">Nilai Kontrak vs Realisasi per OPD</p>
                 <p className="text-xs text-gray-400 mt-0.5">8 OPD dengan nilai kontrak terbesar  TA {tahun}</p>
               </div>
               <div className="flex gap-3 text-[10px] text-gray-400">
-                <div className="flex items-center gap-1"><div className="h-2 w-4 rounded-sm bg-blue-500 opacity-80" />Kontrak</div>
-                <div className="flex items-center gap-1"><div className="h-2 w-4 rounded-sm bg-emerald-500 opacity-80" />Realisasi</div>
+                <div className="flex items-center gap-1"><div className="w-4 h-2 bg-blue-500 rounded-sm opacity-80" />Kontrak</div>
+                <div className="flex items-center gap-1"><div className="w-4 h-2 rounded-sm bg-emerald-500 opacity-80" />Realisasi</div>
               </div>
             </div>
             <div className="h-[240px]">
@@ -664,11 +664,11 @@ export default function Dashboard() {
         {/* 
             RECENT UPDATES TABLE
          */}
-        <div className="rounded-2xl border bg-white dark:bg-gray-900 shadow-sm overflow-hidden">
+        <div className="overflow-hidden bg-white border shadow-sm rounded-2xl dark:bg-gray-900">
           <div className="flex items-center justify-between px-5 py-4 border-b bg-gray-50 dark:bg-gray-800/50">
             <div className="flex items-center gap-2">
               <div className="rounded-lg bg-blue-100 dark:bg-blue-900/40 p-1.5">
-                <Clock className="h-4 w-4 text-blue-600" />
+                <Clock className="w-4 h-4 text-blue-600" />
               </div>
               <div>
                 <p className="text-sm font-bold text-gray-900 dark:text-white">Pembaruan Terkini</p>
@@ -714,24 +714,24 @@ export default function Dashboard() {
                         {idx + 1}
                       </div>
                     </td>
-                    <td className="px-4 py-3 font-bold text-blue-700 dark:text-blue-400 text-xs whitespace-nowrap">{item.opd?.code || ""}</td>
+                    <td className="px-4 py-3 text-xs font-bold text-blue-700 dark:text-blue-400 whitespace-nowrap">{item.opd?.code || ""}</td>
                     <td className="px-4 py-3 max-w-[200px] lg:max-w-[260px]">
-                      <p className="text-xs font-semibold text-gray-800 dark:text-gray-200 truncate">{item.name}</p>
+                      <p className="text-xs font-semibold text-gray-800 truncate dark:text-gray-200">{item.name}</p>
                       <p className="text-[11px] text-gray-400 truncate mt-0.5">{item.lokasi || ""}</p>
                     </td>
-                    <td className="px-4 py-3 hidden md:table-cell">
+                    <td className="hidden px-4 py-3 md:table-cell">
                       <span className="text-[11px] text-gray-500 bg-gray-100 dark:bg-gray-800 px-2 py-0.5 rounded-full">{item.kategori}</span>
                     </td>
-                    <td className="px-4 py-3 text-right font-mono text-xs font-semibold text-gray-900 dark:text-white whitespace-nowrap">{formatRupiah(item.nilai)}</td>
+                    <td className="px-4 py-3 font-mono text-xs font-semibold text-right text-gray-900 dark:text-white whitespace-nowrap">{formatRupiah(item.nilai)}</td>
                     <td className="px-4 py-3 text-center">
                       <div className="flex flex-col items-center gap-1">
                         <span className={`text-xs font-black ${progresTextColor(item.progres)}`}>{item.progres}%</span>
-                        <div className="w-14 h-2 rounded-full bg-gray-100 dark:bg-gray-700 overflow-hidden">
+                        <div className="h-2 overflow-hidden bg-gray-100 rounded-full w-14 dark:bg-gray-700">
                           <div className={`h-full rounded-full ${progresColor(item.progres)} transition-all duration-500`} style={{ width: `${Math.min(item.progres, 100)}%` }} />
                         </div>
                       </div>
                     </td>
-                    <td className="px-4 py-3 text-center hidden sm:table-cell">{statusBadge(item.status)}</td>
+                    <td className="hidden px-4 py-3 text-center sm:table-cell">{statusBadge(item.status)}</td>
                     <td className="px-4 py-3 text-right text-[11px] text-gray-400 whitespace-nowrap hidden lg:table-cell">{formatTanggal(item.updatedAt)}</td>
                   </tr>
                 ))}
@@ -739,7 +739,7 @@ export default function Dashboard() {
                   <tr>
                     <td colSpan={8} className="px-4 py-16 text-center">
                       <div className="flex flex-col items-center gap-2 text-gray-300">
-                        <FileText className="h-8 w-8" />
+                        <FileText className="w-8 h-8" />
                         <p className="text-sm">Belum ada data paket untuk tahun {tahun}</p>
                       </div>
                     </td>
@@ -753,8 +753,8 @@ export default function Dashboard() {
             <div className="px-5 py-3 border-t bg-gray-50 dark:bg-gray-800/50 text-[11px] text-gray-400 flex items-center justify-between">
               <span>Menampilkan {recentUpdates.length} pembaruan terkini</span>
               <span className="flex items-center gap-2">
-                <span className="inline-flex items-center gap-1"><div className="h-2 w-2 rounded-full bg-red-400" /> Progres rendah</span>
-                <span className="inline-flex items-center gap-1"><div className="h-2 w-2 rounded-full bg-emerald-400" /> Selesai</span>
+                <span className="inline-flex items-center gap-1"><div className="w-2 h-2 bg-red-400 rounded-full" /> Progres rendah</span>
+                <span className="inline-flex items-center gap-1"><div className="w-2 h-2 rounded-full bg-emerald-400" /> Selesai</span>
               </span>
             </div>
           )}
