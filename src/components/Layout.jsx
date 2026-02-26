@@ -57,13 +57,13 @@ export default function Layout() {
             <img
               src="/logo-lamongan.png"
               alt="Logo Lamongan"
-              className="w-10 h-10 object-contain transition-all duration-300 hover-scale drop-shadow"
+              className="object-contain w-10 h-10 transition-all duration-300 hover-scale drop-shadow"
             />
-            <div className="hidden sm:block">
-              <h1 className="text-base font-bold leading-tight sm:text-lg">
+            <div>
+              <h1 className="text-sm font-bold leading-tight sm:text-lg">
                 E-Pembangunan Lamongan
               </h1>
-              <p className="text-xs text-muted-foreground">
+              <p className="hidden text-xs sm:block text-muted-foreground">
                 Realisasi Pembangunan fisik Kabupaten Lamongan
               </p>
             </div>
