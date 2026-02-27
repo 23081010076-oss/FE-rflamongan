@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { paketService, opdService } from "../services";
 import { useAuthStore } from "../stores/authStore";
@@ -474,7 +474,7 @@ export default function PaketList() {
                         </div>
                         <div>
                           <span className="text-gray-400">OPD:</span>{" "}
-                          <span className="truncate">
+                          <span className="truncate font-bold text-blue-800">
                             {paket.opd?.name || "-"}
                           </span>
                         </div>
@@ -634,16 +634,19 @@ export default function PaketList() {
                   </tr>
                 </thead>
                 <tbody className="bg-white divide-y divide-gray-200">
-                  {pakets.map((paket, idx) => {
-                    const pagu = paket.pagu || 0;
-                    const nilaiKontrak = paket.nilai || 0;
-                    const sisa = pagu - nilaiKontrak;
-                    const progresKeuangan =
-                      nilaiKontrak > 0
-                        ? ((paket.nilaiRealisasi / nilaiKontrak) * 100).toFixed(
-                            1,
-                          )
-                        : "0.0";
+                  {(() => {
+                    // Group pakets by OPD
+                    const groups = [];
+                    let lastOpdId = null;
+                    let rowNo = (filters.page - 1) * filters.limit;
+                    pakets.forEach((paket) => {
+                      const opdId = paket.opd?.id || "__none";
+                      if (opdId !== lastOpdId) {
+                        groups.push({ opd: paket.opd, items: [] });
+                        lastOpdId = opdId;
+                      }
+                      groups[groups.length - 1].items.push(paket);
+                    });
                     const fmtDate = (d) =>
                       d
                         ? new Date(d).toLocaleDateString("id-ID", {
@@ -652,22 +655,37 @@ export default function PaketList() {
                             year: "numeric",
                           })
                         : "-";
-                    return (
-                      <tr key={paket.id} className="hover:bg-gray-50">
-                        <td className="text-center border border-gray-100">
-                          {(filters.page - 1) * filters.limit + idx + 1}
-                        </td>
-                        <td className="border border-gray-100 whitespace-nowrap">
-                          <p className="text-xs font-bold text-blue-700">
-                            {paket.opd?.code || "—"}
-                          </p>
-                          <p
-                            className="text-gray-400 text-[10px] leading-tight mt-0.5 max-w-[110px] truncate"
-                            title={paket.opd?.name}
+                    return groups.map((group) => (
+                      <React.Fragment key={group.opd?.id || "__none"}>
+                        {/* Bold OPD section header row */}
+                        <tr className="bg-blue-50">
+                          <td
+                            colSpan={16}
+                            className="px-3 py-1.5 border border-blue-200 text-xs font-bold text-blue-900 tracking-wide"
                           >
-                            {paket.opd?.name || "—"}
-                          </p>
-                        </td>
+                            {group.opd?.code ? `${group.opd.code} — ` : ""}
+                            {group.opd?.name || "Tanpa OPD"}
+                          </td>
+                        </tr>
+                        {group.items.map((paket) => {
+                          rowNo++;
+                          const pagu = paket.pagu || 0;
+                          const nilaiKontrak = paket.nilai || 0;
+                          const sisa = pagu - nilaiKontrak;
+                          const progresKeuangan =
+                            nilaiKontrak > 0
+                              ? ((paket.nilaiRealisasi / nilaiKontrak) * 100).toFixed(1)
+                              : "0.0";
+                          return (
+                          <tr key={paket.id} className="hover:bg-gray-50">
+                            <td className="text-center border border-gray-100">
+                              {rowNo}
+                            </td>
+                            <td className="border border-gray-100 whitespace-nowrap">
+                              <p className="text-xs font-bold text-blue-700 max-w-[110px] truncate" title={paket.opd?.name}>
+                                {paket.opd?.name || "—"}
+                              </p>
+                            </td>
                         <td className="border border-gray-100">
                           <p className="font-medium text-gray-900">
                             {paket.name}
@@ -723,7 +741,7 @@ export default function PaketList() {
                           {paket.keterangan || "-"}
                         </td>
                         <td className="border border-gray-100 whitespace-nowrap">
-                          {user?.role === "ADMIN" || user?.role === "OPD" ? (
+                          {user?.role === "ADMIN" || user?.role === "OPD" ? ( // eslint-disable-line
                             <select
                               className="input py-1 px-2 text-xs font-medium w-full min-w-[110px]"
                               value={paket.status}
@@ -778,9 +796,12 @@ export default function PaketList() {
                             Detail →
                           </Link>
                         </td>
-                      </tr>
-                    );
-                  })}
+                          </tr>
+                          );
+                        })}
+                      </React.Fragment>
+                    ));
+                  })()}
                 </tbody>
                 {pakets.length > 0 &&
                   totals &&
