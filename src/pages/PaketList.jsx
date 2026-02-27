@@ -225,50 +225,99 @@ export default function PaketList() {
       {showImportModal && (
         <div className="fixed inset-0 z-50 flex items-end justify-center p-0 bg-black bg-opacity-50 sm:items-center sm:p-4">
           <div className="bg-white rounded-t-2xl sm:rounded-lg p-5 sm:p-6 w-full sm:max-w-lg max-h-[90vh] overflow-y-auto">
-            <h2 className="mb-4 text-lg font-bold text-gray-900">Import Data dari Excel</h2>
+            <h2 className="mb-4 text-lg font-bold text-gray-900">
+              Import Data dari Excel
+            </h2>
 
             {/* Default values form */}
-            <div className="space-y-3 mb-4">
+            <div className="mb-4 space-y-3">
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Tahun Anggaran</label>
+                <label className="block mb-1 text-xs font-semibold text-gray-600">
+                  Tahun Anggaran
+                </label>
                 <select
                   value={importDefaults.tahun}
-                  onChange={(e) => setImportDefaults({ ...importDefaults, tahun: Number(e.target.value) })}
+                  onChange={(e) =>
+                    setImportDefaults({
+                      ...importDefaults,
+                      tahun: Number(e.target.value),
+                    })
+                  }
                   className="input"
                 >
-                  {Array.from({ length: new Date().getFullYear() - 2010 + 1 }, (_, i) => new Date().getFullYear() - i).map((y) => (
-                    <option key={y} value={y}>{y}</option>
+                  {Array.from(
+                    { length: new Date().getFullYear() - 2010 + 1 },
+                    (_, i) => new Date().getFullYear() - i,
+                  ).map((y) => (
+                    <option key={y} value={y}>
+                      {y}
+                    </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">OPD / Instansi <span className="font-normal text-gray-400">(default jika kolom OPD di Excel kosong)</span></label>
+                <label className="block mb-1 text-xs font-semibold text-gray-600">
+                  OPD / Instansi{" "}
+                  <span className="font-normal text-gray-400">
+                    (default jika kolom OPD di Excel kosong)
+                  </span>
+                </label>
                 <select
                   value={importDefaults.opdId}
-                  onChange={(e) => setImportDefaults({ ...importDefaults, opdId: e.target.value })}
+                  onChange={(e) =>
+                    setImportDefaults({
+                      ...importDefaults,
+                      opdId: e.target.value,
+                    })
+                  }
                   className="input"
                 >
                   <option value="">— Dari kolom Excel —</option>
                   {opds.map((o) => (
-                    <option key={o.id} value={o.id}>{o.code} - {o.name}</option>
+                    <option key={o.id} value={o.id}>
+                      {o.code} - {o.name}
+                    </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">Sumber Dana <span className="font-normal text-gray-400">(default jika tidak ada di Excel)</span></label>
+                <label className="block mb-1 text-xs font-semibold text-gray-600">
+                  Sumber Dana{" "}
+                  <span className="font-normal text-gray-400">
+                    (default jika tidak ada di Excel)
+                  </span>
+                </label>
                 <select
                   value={importDefaults.sumberDana}
-                  onChange={(e) => setImportDefaults({ ...importDefaults, sumberDana: e.target.value })}
+                  onChange={(e) =>
+                    setImportDefaults({
+                      ...importDefaults,
+                      sumberDana: e.target.value,
+                    })
+                  }
                   className="input"
                 >
                   <option value="">— Dari kolom Excel —</option>
-                  {["APBD","APBN","DAU","DAK","BLUD","BK","BANTUAN PROVINSI","LAINNYA"].map((d) => (
-                    <option key={d} value={d}>{d}</option>
+                  {[
+                    "APBD",
+                    "APBN",
+                    "DAU",
+                    "DAK",
+                    "BLUD",
+                    "BK",
+                    "BANTUAN PROVINSI",
+                    "LAINNYA",
+                  ].map((d) => (
+                    <option key={d} value={d}>
+                      {d}
+                    </option>
                   ))}
                 </select>
               </div>
               <div>
-                <label className="block text-xs font-semibold text-gray-600 mb-1">File Excel (.xlsx / .xls)</label>
+                <label className="block mb-1 text-xs font-semibold text-gray-600">
+                  File Excel (.xlsx / .xls)
+                </label>
                 <input
                   type="file"
                   accept=".xlsx,.xls"

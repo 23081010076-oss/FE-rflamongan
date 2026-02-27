@@ -8,7 +8,6 @@ import PaketList from "./pages/PaketList";
 import PaketDetail from "./pages/PaketDetail";
 import OpdList from "./pages/OpdList";
 import UserList from "./pages/UserList";
-import ImportExcel from "./pages/ImportExcel";
 import Rekap from "./pages/Rekap";
 
 function PrivateRoute({ children }) {
@@ -43,7 +42,6 @@ function App() {
           <Route path="paket/:id" element={<PaketDetail />} />
           <Route path="opd" element={<OpdList />} />
           <Route path="users" element={<UserList />} />
-          <Route path="import" element={<ImportExcel />} />
           <Route path="rekap" element={<Rekap />} />
         </Route>
       </Routes>

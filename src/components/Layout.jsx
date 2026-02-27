@@ -18,7 +18,6 @@ import {
   Package,
   Users,
   Menu,
-  Upload,
   ClipboardList,
 } from "lucide-react";
 
@@ -187,18 +186,7 @@ export default function Layout() {
                 </Button>
               </Link>
 
-              {user?.role === "ADMIN" && (
-                <Link to="/import">
-                  <Button
-                    variant={isActive("/import") ? "default" : "ghost"}
-                    className="gap-2 transition-all duration-200 hover-lift"
-                    size="sm"
-                  >
-                    <Upload className="w-4 h-4" />
-                    <span className="hidden sm:inline">Import</span>
-                  </Button>
-                </Link>
-              )}
+
             </div>
           </div>
         </nav>
