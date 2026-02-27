@@ -24,6 +24,11 @@ export default function PaketList() {
   const [importResult, setImportResult] = useState(null);
   const [showImportModal, setShowImportModal] = useState(false);
   const [importFile, setImportFile] = useState(null);
+  const [importDefaults, setImportDefaults] = useState({
+    tahun: new Date().getFullYear(),
+    opdId: "",
+    sumberDana: "",
+  });
   const fileInputRef = useRef(null);
   const [showFormModal, setShowFormModal] = useState(false);
   const [editPaketId, setEditPaketId] = useState(null);
@@ -127,7 +132,7 @@ export default function PaketList() {
     try {
       setImporting(true);
       setImportResult(null);
-      const result = await paketService.importExcel(importFile);
+      const result = await paketService.importExcel(importFile, importDefaults);
       setImportResult(result);
       setImportFile(null);
       if (fileInputRef.current) fileInputRef.current.value = "";
@@ -219,44 +224,59 @@ export default function PaketList() {
       {/* Import Modal */}
       {showImportModal && (
         <div className="fixed inset-0 z-50 flex items-end justify-center p-0 bg-black bg-opacity-50 sm:items-center sm:p-4">
-          <div className="bg-white rounded-t-2xl sm:rounded-lg p-5 sm:p-8 w-full sm:max-w-md max-h-[90vh] overflow-y-auto">
-            <h2 className="mb-4 text-xl font-bold text-gray-900">
-              Import Paket dari Excel
-            </h2>
+          <div className="bg-white rounded-t-2xl sm:rounded-lg p-5 sm:p-6 w-full sm:max-w-lg max-h-[90vh] overflow-y-auto">
+            <h2 className="mb-4 text-lg font-bold text-gray-900">Import Data dari Excel</h2>
 
-            <div className="p-3 mb-4 text-sm text-blue-800 rounded-md bg-blue-50">
-              <p className="mb-1 font-medium">Kolom wajib dalam template:</p>
-              <p className="text-xs text-blue-700">
-                PAKET PEKERJAAN, OPD, KEGIATAN, KATEGORI, TAHUN, PAGU ANGGARAN,
-                NILAI KONTRAK, LOKASI
-              </p>
-              <p className="mt-1 text-xs text-blue-700">
-                Kategori: KONSTRUKSI | KONSULTANSI | BARANG | JASA_LAINNYA
-              </p>
-              <p className="mt-1 text-xs text-blue-500">
-                Kode paket dibuat otomatis. Gunakan template dari tombol
-                Download.
-              </p>
-            </div>
-
-            <button
-              onClick={handleDownloadTemplate}
-              className="w-full mb-4 text-sm btn btn-secondary"
-            >
-              ⬇ Download Template Excel
-            </button>
-
-            <div className="mb-4">
-              <label className="block mb-2 text-sm font-medium text-gray-700">
-                Pilih File Excel (.xlsx)
-              </label>
-              <input
-                type="file"
-                accept=".xlsx,.xls"
-                ref={fileInputRef}
-                onChange={(e) => setImportFile(e.target.files[0])}
-                className="text-sm input"
-              />
+            {/* Default values form */}
+            <div className="space-y-3 mb-4">
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Tahun Anggaran</label>
+                <select
+                  value={importDefaults.tahun}
+                  onChange={(e) => setImportDefaults({ ...importDefaults, tahun: Number(e.target.value) })}
+                  className="input"
+                >
+                  {Array.from({ length: new Date().getFullYear() - 2010 + 1 }, (_, i) => new Date().getFullYear() - i).map((y) => (
+                    <option key={y} value={y}>{y}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">OPD / Instansi <span className="font-normal text-gray-400">(default jika kolom OPD di Excel kosong)</span></label>
+                <select
+                  value={importDefaults.opdId}
+                  onChange={(e) => setImportDefaults({ ...importDefaults, opdId: e.target.value })}
+                  className="input"
+                >
+                  <option value="">— Dari kolom Excel —</option>
+                  {opds.map((o) => (
+                    <option key={o.id} value={o.id}>{o.code} - {o.name}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">Sumber Dana <span className="font-normal text-gray-400">(default jika tidak ada di Excel)</span></label>
+                <select
+                  value={importDefaults.sumberDana}
+                  onChange={(e) => setImportDefaults({ ...importDefaults, sumberDana: e.target.value })}
+                  className="input"
+                >
+                  <option value="">— Dari kolom Excel —</option>
+                  {["APBD","APBN","DAU","DAK","BLUD","BK","BANTUAN PROVINSI","LAINNYA"].map((d) => (
+                    <option key={d} value={d}>{d}</option>
+                  ))}
+                </select>
+              </div>
+              <div>
+                <label className="block text-xs font-semibold text-gray-600 mb-1">File Excel (.xlsx / .xls)</label>
+                <input
+                  type="file"
+                  accept=".xlsx,.xls"
+                  ref={fileInputRef}
+                  onChange={(e) => setImportFile(e.target.files[0])}
+                  className="text-sm input"
+                />
+              </div>
             </div>
 
             {importResult && (
