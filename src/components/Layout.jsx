@@ -18,6 +18,8 @@ import {
   Package,
   Users,
   Menu,
+  Upload,
+  ClipboardList,
 } from "lucide-react";
 
 export default function Layout() {
@@ -170,6 +172,30 @@ export default function Layout() {
                   >
                     <Users className="w-4 h-4" />
                     <span className="hidden sm:inline">Pengguna</span>
+                  </Button>
+                </Link>
+              )}
+
+              <Link to="/rekap">
+                <Button
+                  variant={isActive("/rekap") ? "default" : "ghost"}
+                  className="gap-2 transition-all duration-200 hover-lift"
+                  size="sm"
+                >
+                  <ClipboardList className="w-4 h-4" />
+                  <span className="hidden sm:inline">Rekap</span>
+                </Button>
+              </Link>
+
+              {user?.role === "ADMIN" && (
+                <Link to="/import">
+                  <Button
+                    variant={isActive("/import") ? "default" : "ghost"}
+                    className="gap-2 transition-all duration-200 hover-lift"
+                    size="sm"
+                  >
+                    <Upload className="w-4 h-4" />
+                    <span className="hidden sm:inline">Import</span>
                   </Button>
                 </Link>
               )}
