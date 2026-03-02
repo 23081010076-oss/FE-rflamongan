@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import { userService, opdService } from "../services";
+import SearchableSelect from "../components/SearchableSelect";
 
 export default function UserList() {
   const [users, setUsers] = useState([]);
@@ -291,20 +292,16 @@ export default function UserList() {
                 <label className="block text-sm font-medium text-gray-700 mb-2">
                   OPD
                 </label>
-                <select
-                  className="input"
+                <SearchableSelect
                   value={formData.opdId}
-                  onChange={(e) =>
-                    setFormData({ ...formData, opdId: e.target.value })
+                  onChange={(val) =>
+                    setFormData({ ...formData, opdId: val })
                   }
-                >
-                  <option value="">Pilih OPD</option>
-                  {opds.map((opd) => (
-                    <option key={opd.id} value={opd.id}>
-                      {opd.name}
-                    </option>
-                  ))}
-                </select>
+                  options={opds}
+                  getLabel={(o) => o.name}
+                  placeholder="Pilih OPD"
+                  required
+                />
               </div>
 
               <div className="flex justify-end space-x-3 pt-4">

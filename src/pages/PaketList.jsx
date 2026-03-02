@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
 import { paketService, opdService } from "../services";
+import SearchableSelect from "../components/SearchableSelect";
 import { useAuthStore } from "../stores/authStore";
 import PaketForm from "./PaketForm";
 
@@ -262,23 +263,15 @@ export default function PaketList() {
                     (default jika kolom OPD di Excel kosong)
                   </span>
                 </label>
-                <select
+                <SearchableSelect
                   value={importDefaults.opdId}
-                  onChange={(e) =>
-                    setImportDefaults({
-                      ...importDefaults,
-                      opdId: e.target.value,
-                    })
+                  onChange={(val) =>
+                    setImportDefaults({ ...importDefaults, opdId: val })
                   }
-                  className="input"
-                >
-                  <option value="">— Dari kolom Excel —</option>
-                  {opds.map((o) => (
-                    <option key={o.id} value={o.id}>
-                      {o.code} - {o.name}
-                    </option>
-                  ))}
-                </select>
+                  options={opds}
+                  getLabel={(o) => `${o.code} - ${o.name}`}
+                  placeholder="— Dari kolom Excel —"
+                />
               </div>
               <div>
                 <label className="block mb-1 text-xs font-semibold text-gray-600">
@@ -385,20 +378,16 @@ export default function PaketList() {
             }
           />
           {user?.role !== "OPD" && (
-            <select
-              className="input"
+            <SearchableSelect
               value={filters.opdId}
-              onChange={(e) =>
-                setFilters({ ...filters, opdId: e.target.value, page: 1 })
+              onChange={(val) =>
+                setFilters({ ...filters, opdId: val, page: 1 })
               }
-            >
-              <option value="">Semua OPD</option>
-              {opds.map((o) => (
-                <option key={o.id} value={o.id}>
-                  {o.code} - {o.name}
-                </option>
-              ))}
-            </select>
+              options={opds}
+              getLabel={(o) => `${o.code} - ${o.name}`}
+              placeholder="Semua OPD"
+              className="min-w-[220px]"
+            />
           )}
           <select
             className="input"
