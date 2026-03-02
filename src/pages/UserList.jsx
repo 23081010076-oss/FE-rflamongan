@@ -14,6 +14,7 @@ export default function UserList() {
     name: "",
     role: "VIEWER",
     opdId: "",
+    isActive: true,
   });
 
   useEffect(() => {
@@ -56,6 +57,7 @@ export default function UserList() {
         name: "",
         role: "VIEWER",
         opdId: "",
+        isActive: true,
       });
       loadData();
     } catch (error) {
@@ -72,6 +74,7 @@ export default function UserList() {
       name: user.name,
       role: user.role,
       opdId: user.opdId || "",
+      isActive: user.isActive,
     });
     setShowModal(true);
   };
@@ -134,6 +137,7 @@ export default function UserList() {
               name: "",
               role: "VIEWER",
               opdId: "",
+              isActive: true,
             });
             setShowModal(true);
           }}
@@ -302,6 +306,22 @@ export default function UserList() {
                   placeholder="Pilih OPD"
                   required
                 />
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium text-gray-700 mb-2">
+                  Status
+                </label>
+                <select
+                  className="input"
+                  value={formData.isActive ? "true" : "false"}
+                  onChange={(e) =>
+                    setFormData({ ...formData, isActive: e.target.value === "true" })
+                  }
+                >
+                  <option value="true">Aktif</option>
+                  <option value="false">Non-aktif</option>
+                </select>
               </div>
 
               <div className="flex justify-end space-x-3 pt-4">
