@@ -50,10 +50,12 @@ export default function SearchableSelect({
   }, [open]);
 
   const filtered = options.filter((o) =>
-    getLabel(o).toLowerCase().includes(search.toLowerCase())
+    getLabel(o).toLowerCase().includes(search.toLowerCase()),
   );
 
-  const selectedOption = options.find((o) => String(getValue(o)) === String(value));
+  const selectedOption = options.find(
+    (o) => String(getValue(o)) === String(value),
+  );
   const displayLabel = selectedOption ? getLabel(selectedOption) : null;
 
   const handleSelect = (o) => {
@@ -80,9 +82,7 @@ export default function SearchableSelect({
           disabled ? "opacity-60 cursor-not-allowed" : "cursor-pointer"
         } ${!displayLabel ? "text-gray-400" : "text-gray-800"}`}
       >
-        <span className="truncate">
-          {displayLabel || placeholder}
-        </span>
+        <span className="truncate">{displayLabel || placeholder}</span>
         <span className="flex items-center gap-1 ml-2 shrink-0">
           {displayLabel && !disabled && (
             <span
@@ -100,7 +100,11 @@ export default function SearchableSelect({
             stroke="currentColor"
             strokeWidth={2}
           >
-            <path strokeLinecap="round" strokeLinejoin="round" d="M19 9l-7 7-7-7" />
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M19 9l-7 7-7-7"
+            />
           </svg>
         </span>
       </button>
@@ -134,7 +138,11 @@ export default function SearchableSelect({
                 className={`px-3 py-2 text-sm cursor-pointer hover:bg-blue-50 text-gray-400 ${
                   !value ? "bg-blue-50 font-medium text-blue-600" : ""
                 }`}
-                onMouseDown={() => { onChange(""); setOpen(false); setSearch(""); }}
+                onMouseDown={() => {
+                  onChange("");
+                  setOpen(false);
+                  setSearch("");
+                }}
               >
                 {placeholder}
               </li>
@@ -154,7 +162,9 @@ export default function SearchableSelect({
                   key={val}
                   onMouseDown={() => handleSelect(o)}
                   className={`px-3 py-2 text-sm cursor-pointer hover:bg-blue-50 ${
-                    isSelected ? "bg-blue-50 font-medium text-blue-600" : "text-gray-700"
+                    isSelected
+                      ? "bg-blue-50 font-medium text-blue-600"
+                      : "text-gray-700"
                   }`}
                 >
                   {getLabel(o)}

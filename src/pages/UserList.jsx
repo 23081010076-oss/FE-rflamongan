@@ -298,9 +298,7 @@ export default function UserList() {
                 </label>
                 <SearchableSelect
                   value={formData.opdId}
-                  onChange={(val) =>
-                    setFormData({ ...formData, opdId: val })
-                  }
+                  onChange={(val) => setFormData({ ...formData, opdId: val })}
                   options={opds}
                   getLabel={(o) => o.name}
                   placeholder="Pilih OPD"
@@ -316,7 +314,10 @@ export default function UserList() {
                   className="input"
                   value={formData.isActive ? "true" : "false"}
                   onChange={(e) =>
-                    setFormData({ ...formData, isActive: e.target.value === "true" })
+                    setFormData({
+                      ...formData,
+                      isActive: e.target.value === "true",
+                    })
                   }
                 >
                   <option value="true">Aktif</option>

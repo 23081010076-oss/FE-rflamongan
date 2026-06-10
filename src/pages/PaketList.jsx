@@ -157,6 +157,19 @@ export default function PaketList() {
     }).format(value);
   };
 
+  const getNilaiKontrak = (paket) => {
+    const nilai = Number(paket.nilai || 0);
+    return nilai > 0 ? nilai : null;
+  };
+
+  const formatOptionalRupiah = (value) => {
+    return value === null || value === undefined ? "-" : formatRupiah(value);
+  };
+
+  const displayValue = (value) => {
+    return value === null || value === undefined || value === "" ? "-" : value;
+  };
+
   const getStatusBadge = (status) => {
     const badges = {
       PENDING: "badge badge-warning",
@@ -453,8 +466,9 @@ export default function PaketList() {
               ) : (
                 pakets.map((paket, idx) => {
                   const pagu = paket.pagu || 0;
-                  const nilaiKontrak = paket.nilai || 0;
-                  const sisa = pagu - nilaiKontrak;
+                  const nilaiKontrak = getNilaiKontrak(paket);
+                  const sisa =
+                    nilaiKontrak === null ? null : pagu - nilaiKontrak;
                   const fmtDate = (d) =>
                     d
                       ? new Date(d).toLocaleDateString("id-ID", {
@@ -499,7 +513,7 @@ export default function PaketList() {
                         <div>
                           <span className="text-gray-400">Kontrak:</span>{" "}
                           <span className="font-medium">
-                            {formatRupiah(nilaiKontrak)}
+                            {formatOptionalRupiah(nilaiKontrak)}
                           </span>
                         </div>
                         <div>
@@ -674,10 +688,11 @@ export default function PaketList() {
                 <tbody className="bg-white divide-y divide-gray-200">
                   {pakets.map((paket, idx) => {
                     const pagu = paket.pagu || 0;
-                    const nilaiKontrak = paket.nilai || 0;
-                    const sisa = pagu - nilaiKontrak;
+                    const nilaiKontrak = getNilaiKontrak(paket);
+                    const sisa =
+                      nilaiKontrak === null ? null : pagu - nilaiKontrak;
                     const progresKeuangan =
-                      nilaiKontrak > 0
+                      nilaiKontrak !== null
                         ? ((paket.nilaiRealisasi / nilaiKontrak) * 100).toFixed(
                             1,
                           )
@@ -707,10 +722,12 @@ export default function PaketList() {
                           </p>
                         </td>
                         <td className="border border-gray-100">
-                          <p className="font-medium text-gray-900">
-                            {paket.name}
+                          <p className="font-medium text-gray-900 whitespace-pre-line">
+                            {displayValue(paket.name)}
                           </p>
-                          <p className="text-gray-400">{paket.kegiatan}</p>
+                          <p className="text-gray-400 whitespace-pre-line">
+                            {displayValue(paket.kegiatan)}
+                          </p>
                           {paket.kodeRekening && (
                             <p className="text-gray-400">
                               {paket.kodeRekening}
@@ -721,13 +738,15 @@ export default function PaketList() {
                           {formatRupiah(pagu)}
                         </td>
                         <td className="text-right border border-gray-100 whitespace-nowrap">
-                          {formatRupiah(nilaiKontrak)}
+                          {formatOptionalRupiah(nilaiKontrak)}
                         </td>
                         <td className="text-right border border-gray-100 whitespace-nowrap">
-                          {formatRupiah(sisa)}
+                          {formatOptionalRupiah(sisa)}
                         </td>
                         <td className="border border-gray-100">
-                          {paket.pelaksana || "-"}
+                          <span className="whitespace-pre-line">
+                            {displayValue(paket.pelaksana)}
+                          </span>
                         </td>
                         <td className="text-center border border-gray-100 whitespace-nowrap">
                           {fmtDate(paket.tanggalMulai)}
@@ -752,13 +771,17 @@ export default function PaketList() {
                           {progresKeuangan}%
                         </td>
                         <td className="text-center border border-gray-100">
-                          {paket.sumberDana || "-"}
+                          {displayValue(paket.sumberDana)}
                         </td>
                         <td className="border border-gray-100">
-                          {paket.lokasi || "-"}
+                          <span className="whitespace-pre-line">
+                            {displayValue(paket.lokasi)}
+                          </span>
                         </td>
                         <td className="border border-gray-100">
-                          {paket.keterangan || "-"}
+                          <span className="whitespace-pre-line">
+                            {displayValue(paket.keterangan)}
+                          </span>
                         </td>
                         <td className="border border-gray-100 whitespace-nowrap">
                           {user?.role === "ADMIN" || user?.role === "OPD" ? (
@@ -849,12 +872,16 @@ export default function PaketList() {
                             {formatRupiah(totalPagu)}
                           </td>
                           <td className="text-right px-3 py-2.5 border border-blue-200 text-blue-900 whitespace-nowrap font-bold">
-                            {formatRupiah(totalNilai)}
+                            {formatOptionalRupiah(
+                              totalNilai > 0 ? totalNilai : null,
+                            )}
                           </td>
                           <td
                             className={`text-right px-3 py-2.5 border border-blue-200 whitespace-nowrap font-bold ${totalSisa < 0 ? "text-red-600" : "text-emerald-700"}`}
                           >
-                            {formatRupiah(totalSisa)}
+                            {formatOptionalRupiah(
+                              totalNilai > 0 ? totalSisa : null,
+                            )}
                           </td>
                           <td className="px-3 py-2.5 border border-blue-200 text-gray-400 text-center">
                             —

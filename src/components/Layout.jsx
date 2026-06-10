@@ -185,8 +185,6 @@ export default function Layout() {
                   <span className="hidden sm:inline">Rekap</span>
                 </Button>
               </Link>
-
-
             </div>
           </div>
         </nav>
